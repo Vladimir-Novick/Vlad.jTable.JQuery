@@ -1,0 +1,178 @@
+﻿@using System.Text
+@{
+    ViewBag.Title = "Activies ";
+}
+    <style>
+        .child-opener-image
+        {
+            cursor: pointer;
+        }
+        .child-opener-image-column
+        {
+            text-align: center;
+        }
+        .jtable-dialog-form
+        {
+            min-width: 220px;
+        }
+        .jtable-dialog-form input[type="text"]
+        {
+            min-width: 200px;
+        }
+        .refresh_Panel {
+            width: 100%;
+            height: 32px;
+            margin-top:15px;
+        }
+
+         .refresh_Panel img {
+             float: right;
+             cursor:pointer;
+        }
+
+    </style>
+
+@section Scripts {
+<script src="~/js/jquery-ui.js" @*asp-append-version="true"*@></script>
+<link href="/js/jtable/themes/vlad/jtable.css" rel="stylesheet" type="text/css" />
+<link href="~/css/jui-theme/jquery-ui-1.8.5.custom.css" rel="stylesheet" />
+<script src="/js/jtable/vlad.jquery.jtable.js"></script>
+
+    }
+
+
+<div class="refresh_Panel"><img id="Refresh_button" src="~/images/Refresh32.png" /></div>
+<div id="ActivitiesTableContainer"></div>
+<script type="text/javascript">
+
+    $(document).ready(function () {
+
+        $('#ActivitiesTableContainer').jtable({
+            title: 'Activite Storage Keys',
+            paging: true,
+            pageSize: 50,
+            sorting: true,
+            defaultSorting: 'Date_Create DESC',
+
+            actions: {
+                refreshRowAction: '/StatusQuery/RefreshRow',
+                listAction: '/StatusQuery/GetQueList'
+            },
+            fields: {
+
+                Date_Create: {
+                    title: 'Created',
+                    create: false,
+                    edit: false,
+                    sorting: true,
+                    type: 'date',
+                    displayFormat: 'HH:TT:ss',
+                    list: true,
+                    width: '15%'
+                },
+                Key: {
+                    title: 'Key',
+                    key: true,
+                    sorting: true,
+                    width: '20%'
+                }
+                ,
+                QueueCount: {
+                    title: 'Queue',
+                    Key: false,
+                    sorting: true,
+                    width: '10%'
+                },
+                JQueueCount: {
+                    title: 'JQueue',
+                    Key: false,
+                    sorting: true,
+                    width: '10%'
+                },
+
+                Opened: {
+                    title: 'Opened',
+                    Key: false,
+                    sorting: true,
+                    width: '10%'
+                },
+                Total: {
+                    title: 'Total',
+                    Key: false,
+                    sorting: true,
+                    width: '10%'
+                },
+
+
+                 DataKey: {
+                    title: '',
+                    width: '5%',
+                    sorting: false,
+                    edit: false,
+                    listClass: 'jtable-column-button',
+                    create: false,
+                                listClass: 'child-opener-image-column',
+                                    display: function (KeyData) {
+
+                                        var $img = $('<img class="child-opener-image" src="/images/group_rank.png" title="" />');
+
+                                        $img.click(function () {
+                                            $('#ActivitiesTableContainer').jtable('openChildTable',
+                                                $img.closest('tr'),
+                                                {
+                                                    title: 'Data by Key: ',
+                                                    paging: true,
+                                                    sorting: true,
+                                                    defaultSorting: 'DataTD ASC',
+                                                    actions: {
+                                                        listAction: '/StatusQuery/GetDataTD?Key=' + KeyData.record.Key,
+                                                    },
+
+                                                    fields: {
+
+
+                                                        DataTD: {
+                                                            title: 'DataTD',
+                                                            create: false,
+                                                            edit: false,
+                                                            sorting: true,
+                                                            list: true,
+                                                            width: '20%'
+                                                        },
+                                                        Status: {
+                                                            title: 'Status',
+                                                            sorting: true,
+                                                            width: '60%'
+                                                        }
+                                                    }
+                                                }, function (data) { //opened handler
+                                                    data.childTable.jtable('load');
+                                                });
+                                        });
+                                      
+                                        return $img;
+                                    }
+                }
+
+
+
+
+
+            }
+        });
+
+        $("#Refresh_button").click(function () {
+            $('#ActivitiesTableContainer').jtable('load');
+        });
+
+
+         $('#ActivitiesTableContainer').jtable('load');
+
+    });
+
+
+
+</script>
+<br />
+<hr />
+

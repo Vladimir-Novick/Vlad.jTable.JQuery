@@ -1180,10 +1180,8 @@ form.jtable-dialog-form div.jtable-textarea-input textarea.eMailBodyClass {
 }
 
 .jtable-refresh-command-button {
-    width: 24px !important;
-    height: 24px !important;
-    margin-left: 0px;
-    margin-right: 0px;
+    width: 16px !important;
+    height: 16px !important;
     vertical-align: central;
     background: url("./reload.png") no-repeat 0 0 transparent;
     cursor: pointer;

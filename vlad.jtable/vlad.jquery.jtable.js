@@ -2699,7 +2699,7 @@ THE SOFTWARE.
           
             if (self.options.actions.refreshRowAction != undefined) {
                 var $span = $('<span></span>');
-                var $button = $('<img />')
+                var $button = $('<button />')
                     .addClass('jtable-command-button jtable-refresh-command-button')
                     .append($span)
                     .click(function (e) {

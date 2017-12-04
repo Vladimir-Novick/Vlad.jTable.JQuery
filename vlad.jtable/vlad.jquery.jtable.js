@@ -2703,9 +2703,6 @@ THE SOFTWARE.
                     .addClass('jtable-command-button jtable-refresh-command-button')
                     .append($span)
                     .click(function (e) {
-                      //  e.preventDefault();
-                      //  e.stopPropagation();
-                      //  alert(refresh);
                         self._RefreshRecordFromServer($row);
                     });
                 $('<td></td>')
@@ -2733,7 +2730,7 @@ THE SOFTWARE.
                           if (data.TotalRecordCount > 0) {
                               var $updatingRow = data.Records[0];
                               $row.data('record', $updatingRow);
-                              $self._onRowUpdated($row);
+                              $self._updateRowTexts($row);
                           }
                       },
                       error: function () {
@@ -2916,7 +2913,7 @@ THE SOFTWARE.
             var $columns = $tableRow.find('td');
             for (var i = 0; i < this._columnList.length; i++) {
                 var displayItem = this._getDisplayTextForRecordField(record, this._columnList[i]);
-                if ((displayItem != "") && (displayItem == 0)) displayItem = "0";
+           //     if ((displayItem != "") && (displayItem == 0)) displayItem = "0";
                 $columns.eq(this._firstDataColumnOffset + i).html(displayItem || '');
             }
 

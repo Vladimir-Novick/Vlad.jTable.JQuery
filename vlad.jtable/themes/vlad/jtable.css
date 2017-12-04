@@ -1,14 +1,3 @@
-﻿
-// Base styles for jTable.
-// All themes must inherit from jtable_theme_base.
-// Created by Halil İbrahim Kalkan
-// http://www.jtable.org
-//
-// Modified by Vladimir Novick http://www.linkedin.com/in/vladimirnovick , 2017
-//
-
-
-
 
 @font-face {
     font-family: "Open Sans";
@@ -125,7 +114,13 @@ div.jtable-main-container table.jtable {
         div.jtable-main-container table.jtable thead th.jtable-command-column-header {
             text-align: center;
             border-right: 1px solid #a3a7ac;
-            width:42px !important;
+            width:32px !important;
+        }
+
+        div.jtable-main-container table.jtable thead th.jtable-fixed-column-header {
+            text-align: center;
+            border-right: 1px solid #a3a7ac;
+            width: 32px !important;
         }
 
         div.jtable-main-container table.jtable thead th.jtable-column-header-selecting {
@@ -158,7 +153,6 @@ div.jtable-main-container table.jtable {
     div.jtable-main-container table.jtable tbody tr > td.jtable-command-column {
         text-align: center;
         vertical-align: middle;
-        width:32px !important;
     }
 
     div.jtable-main-container table.jtable tbody tr > td.jtable-selecting-column {
@@ -503,10 +497,8 @@ div.jtable-main-container > table.jtable > tbody > tr {
 
 
     div.jtable-main-container > table.jtable > tbody > tr.jtable-data-row > td {
-        padding-top:7px;
-        padding-left:4px;
-
-        vertical-align: top;
+        padding: 4px;
+        vertical-align: central;
         font-size: 14px;
     }
 
@@ -1177,11 +1169,10 @@ form.jtable-dialog-form div.jtable-textarea-input textarea.eMailBodyClass {
 .jtable-page-refresh {
     width: 24px;
     height: 24px;
-    margin-left: 15px;
-    margin-right: 15px;
-    margin-top:2px;
+    margin-left: 5px;
+    margin-right: 5px;
     vertical-align: central;
-    background: url("./reload.png") no-repeat 0 0 transparent;
+    background: url("./refresh16.png") no-repeat 0 0 transparent;
     cursor: pointer;
     opacity: 0.5;
     border: 0;
@@ -1191,12 +1182,14 @@ form.jtable-dialog-form div.jtable-textarea-input textarea.eMailBodyClass {
 .jtable-refresh-command-button {
     width: 24px;
     height: 24px;
+    margin-left: 0px;
+    margin-right: 0px;
     vertical-align: central;
-    background: url("./refresh16.png") no-repeat 0 0 transparent;
+    background: url("./reload.png") no-repeat 0 0 transparent;
     cursor: pointer;
     opacity: 0.5;
-    border: 0 !important;
-    border-color: transparent !important;
+    border: 0;
+    border-color: transparent;
 }
 
 .jtable-refresh-command-button:hover {

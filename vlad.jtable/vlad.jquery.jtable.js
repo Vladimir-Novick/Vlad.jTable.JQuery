@@ -28,7 +28,7 @@ THE SOFTWARE.
 */
 
 /*
-  Modified  by Vladimir Novick http://www.linkedin.com/in/vladimirnovick , 2017
+  Modified : 2017 by Vladimir Novick http://www.linkedin.com/in/vladimirnovick
 */
 
 /************************************************************************
@@ -306,7 +306,8 @@ THE SOFTWARE.
         _addColumnsToHeaderRow: function ($tr) {
             for (var i = 0; i < this._columnList.length; i++) {
                 var fieldName = this._columnList[i];
-                var $headerCell = this._createHeaderCellForField(fieldName, this.options.fields[fieldName]);
+                var fieldOptions = this.options.fields[fieldName];
+                var $headerCell = this._createHeaderCellForField(fieldName, fieldOptions);
                 $headerCell.appendTo($tr);
             }
         },
@@ -329,6 +330,7 @@ THE SOFTWARE.
                 .addClass('jtable-column-header')
                 .addClass(field.listClass)
                 .css('width', field.width)
+                .data('fieldWidth', field.width)
                 .data('fieldName', fieldName)
                 .append($headerContainerDiv);
 
@@ -2698,10 +2700,12 @@ THE SOFTWARE.
             if (self.options.actions.refreshRowAction != undefined) {
                 var $span = $('<span></span>');
                 var $button = $('<img />')
-                    .attr("src","/images/transparent_pixel.gif")
                     .addClass('jtable-command-button jtable-refresh-command-button')
                     .append($span)
                     .click(function (e) {
+                      //  e.preventDefault();
+                      //  e.stopPropagation();
+                      //  alert(refresh);
                         self._RefreshRecordFromServer($row);
                     });
                 $('<td></td>')
@@ -2729,7 +2733,7 @@ THE SOFTWARE.
                           if (data.TotalRecordCount > 0) {
                               var $updatingRow = data.Records[0];
                               $row.data('record', $updatingRow);
-                              $self._updateRowTexts2($row);
+                              $self._onRowUpdated($row);
                           }
                       },
                       error: function () {
@@ -2918,23 +2922,6 @@ THE SOFTWARE.
 
             this._onRowUpdated($tableRow);
         },
-
-
-        _updateRowTexts2: function ($tableRow) {
-            var record = $tableRow.data('record');
-            var $columns = $tableRow.find('td');
-            for (var i = 0; i < this._columnList.length; i++) {
-                var displayItem = this._getDisplayTextForRecordField(record, this._columnList[i]);
-                if (displayItem === 0) {
-                    displayItem = "0";
-                }
-                $columns.eq(this._firstDataColumnOffset + i).html('' || displayItem || '');
-            }
-
-           // this._onRowUpdated($tableRow);
-        },
-
-
 
         /* Shows 'updated' animation for a table row.
         *************************************************************************/
@@ -4919,7 +4906,8 @@ THE SOFTWARE.
 
                         //Calculate new widths in pixels
                         var mouseChangeX = upevent.pageX - self._currentResizeArgs.mouseStartX;
-                        var currentColumnFinalWidth = self._normalizeNumber(self._currentResizeArgs.currentColumnStartWidth + mouseChangeX, self._currentResizeArgs.minWidth, self._currentResizeArgs.maxWidth);
+                        var currentColumnFinalWidth = self._normalizeNumber(self._currentResizeArgs.currentColumnStartWidth
+                               + mouseChangeX, self._currentResizeArgs.minWidth, self._currentResizeArgs.maxWidth);
                         var nextColumnFinalWidth = $nextColumnHeader.outerWidth() + (self._currentResizeArgs.currentColumnStartWidth - currentColumnFinalWidth);
 
                         //Calculate widths as percent
@@ -4928,8 +4916,16 @@ THE SOFTWARE.
                         $nextColumnHeader.data('width-in-percent', nextColumnFinalWidth * pixelToPercentRatio);
 
                         //Set new widths to columns (resize!)
-                        $columnHeader.css('width', $columnHeader.data('width-in-percent') + '%');
-                        $nextColumnHeader.css('width', $nextColumnHeader.data('width-in-percent') + '%');
+
+                        var $fieldWidth = $nextColumnHeader.data('fieldWidth');
+                        if ($fieldWidth.indexOf('%') <= 0) {
+                            $columnHeader.css('width', $fieldWidth);
+                            $nextColumnHeader.css('width', $fieldWidth);
+                        } else {
+
+                            $columnHeader.css('width', $columnHeader.data('width-in-percent') + '%');
+                            $nextColumnHeader.css('width', $nextColumnHeader.data('width-in-percent') + '%');
+                        }
 
                         //Normalize all column widths
                         self._normalizeColumnWidths();
@@ -4966,10 +4962,26 @@ THE SOFTWARE.
             var commandColumnHeaders = this._$table
                 .find('>thead th.jtable-command-column-header')
                 .data('width-in-percent', 1)
-                .css('width', '1%');
+                .data('fieldWidth',"35px")
+                .css('width', '35');
 
             //Find data columns
             var headerCells = this._$table.find('>thead th.jtable-column-header');
+
+
+            var pixelesFields = 0;
+
+            headerCells.each(function () {
+                var $cell = $(this);
+                if ($cell.is(':visible')) {
+                    var fieldWidth = $cell.data('fieldWidth');
+                    if (fieldWidth.indexOf('px') > 0) {
+                        pixelesFields += parseInt(fieldWidth);
+                    }
+                }
+            });
+
+           
 
             //Calculate total width of data columns
             var totalWidthInPixel = 0;
@@ -4980,6 +4992,8 @@ THE SOFTWARE.
                 }
             });
 
+            totalWidthInPixel -= pixelesFields;
+
             //Calculate width of each column
             var columnWidhts = {};
             var availableWidthInPercent = 100.0 - commandColumnHeaders.length;
@@ -4987,8 +5001,13 @@ THE SOFTWARE.
                 var $cell = $(this);
                 if ($cell.is(':visible')) {
                     var fieldName = $cell.data('fieldName');
-                    var widthInPercent = $cell.outerWidth() * availableWidthInPercent / totalWidthInPixel;
-                    columnWidhts[fieldName] = widthInPercent;
+                    var fieldWidth = $cell.data('fieldWidth');
+                    if (fieldWidth.indexOf('%') > 0) {
+                        var widthInPercent = $cell.outerWidth() * availableWidthInPercent / totalWidthInPixel;
+                        columnWidhts[fieldName] = widthInPercent + "%";
+                    } else {
+                        columnWidhts[fieldName] = fieldWidth;
+                    }
                 }
             });
 
@@ -4997,7 +5016,13 @@ THE SOFTWARE.
                 var $cell = $(this);
                 if ($cell.is(':visible')) {
                     var fieldName = $cell.data('fieldName');
-                    $cell.data('width-in-percent', columnWidhts[fieldName]).css('width', columnWidhts[fieldName] + '%');
+                    var w = columnWidhts[fieldName];
+                    $cell.data('width-in-percent', columnWidhts[fieldName]).css('width', columnWidhts[fieldName]);
+                    if (w.indexOf("%") < 0) {
+                        $cell.data('width-in-percent', columnWidhts[fieldName]).css('max-width', columnWidhts[fieldName]);
+                        $cell.data('width-in-percent', columnWidhts[fieldName]).css('min-width', columnWidhts[fieldName]);
+                       
+                    }
                 }
             });
         },

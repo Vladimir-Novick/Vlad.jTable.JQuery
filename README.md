@@ -26,5 +26,17 @@ What's New:
                     width: '80px'
                 },
 
+5.12.2017
 
+	Add number data type 
+	   For example:
+	   
+	            ),
+                Count: {
+                    title: 'Queues',
+                    key: false,
+                    sorting: true,
+                    width: '80px',
+                    type: 'number'
+                }
 

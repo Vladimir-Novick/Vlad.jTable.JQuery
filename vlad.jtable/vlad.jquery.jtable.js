@@ -29,6 +29,7 @@ THE SOFTWARE.
 
 /*
   Modified : 2017 by Vladimir Novick http://www.linkedin.com/in/vladimirnovick
+
 */
 
 /************************************************************************
@@ -544,9 +545,15 @@ THE SOFTWARE.
         /* Create a cell for given field.
         *************************************************************************/
         _createCellForRecordField: function (record, fieldName) {
-            return $('<td></td>')
+           var f = $('<td></td>')
                 .addClass(this.options.fields[fieldName].listClass)
                 .append((this._getDisplayTextForRecordField(record, fieldName)));
+            var field = this.options.fields[fieldName];
+
+            if (field.type === 'number') {
+                f.css('text-align', 'right');
+            }
+            return f;
         },
 
         RefrehRow: function () {
@@ -561,15 +568,11 @@ THE SOFTWARE.
 
             $.each(records, function (index, record) {
                 $tr = self._createRowFromRecord(record);
-               
-               
+
                 self._addCellsToRefreshRecord($tr);
                 self._addRow($tr);
-               
-              
-            });
 
-           
+            });
 
             self._refreshRowStyles();
         },
@@ -1337,7 +1340,6 @@ THE SOFTWARE.
 
 }(jQuery));
 
-
 /************************************************************************
 * Some UTULITY methods used by jTable                                   *
 *************************************************************************/
@@ -1497,7 +1499,6 @@ THE SOFTWARE.
     }
 
 })(jQuery);
-
 
 /************************************************************************
 * FORMS extension for jTable (base for edit/create forms)               *
@@ -1769,7 +1770,6 @@ THE SOFTWARE.
                 dependedValues[dependedField] = $dependsOn.val();
             }
 
-
             return dependedValues;
         },
 
@@ -1982,7 +1982,6 @@ THE SOFTWARE.
     });
 
 })(jQuery);
-
 
 /************************************************************************
 * CREATE RECORD extension for jTable                                    *
@@ -2333,7 +2332,6 @@ THE SOFTWARE.
 
 })(jQuery);
 
-
 /************************************************************************
 * EDIT RECORD extension for jTable                                      *
 *************************************************************************/
@@ -2379,7 +2377,6 @@ THE SOFTWARE.
         *************************************************************************/
         _create: function () {
             base._create.apply(this, arguments);
-
 
             if (!this.options.actions.updateAction) {
                 return;
@@ -2447,8 +2444,6 @@ THE SOFTWARE.
                 self._saveEditForm($editForm, $saveButton);
             }
         },
-
-
 
         /************************************************************************
 * PUBLIC METHODS                                                        *
@@ -2687,9 +2682,6 @@ THE SOFTWARE.
             }
         },
 
-
-       
-
         /*  Overrides base method to add a 'refresh command cell' to a row.
                 *************************************************************************/
         _addCellsToRefreshRecord: function ($row) {
@@ -2711,7 +2703,6 @@ THE SOFTWARE.
                     .appendTo($row);
             }
         },
-
 
         _RefreshRecordFromServer: function ($row) {
             var $self = this;
@@ -2739,10 +2730,7 @@ THE SOFTWARE.
                       }
                   });
 
-
         },
-
-
 
         /************************************************************************
         * PRIVATE METHODS                                                       *
@@ -2846,7 +2834,6 @@ THE SOFTWARE.
                 self._$editDiv.dialog("close");
             };
 
-
             //updateAction may be a function, check if it is
             if ($.isFunction(self.options.actions.updateAction)) {
 
@@ -2913,6 +2900,13 @@ THE SOFTWARE.
             var $columns = $tableRow.find('td');
             for (var i = 0; i < this._columnList.length; i++) {
                 var displayItem = this._getDisplayTextForRecordField(record, this._columnList[i]);
+
+                var fieldName = this._columnList[i];
+                var field = this.options.fields[fieldName];
+
+                if (field.type === 'number') {
+                    $columns.eq(this._firstDataColumnOffset + i).css('text-align', 'right');
+                }
            //     if ((displayItem != "") && (displayItem == 0)) displayItem = "0";
                 $columns.eq(this._firstDataColumnOffset + i).html(displayItem || '');
             }
@@ -2948,7 +2942,6 @@ THE SOFTWARE.
     });
 
 })(jQuery);
-
 
 /************************************************************************
 * DELETION extension for jTable                                         *
@@ -3383,7 +3376,6 @@ THE SOFTWARE.
 
 })(jQuery);
 
-
 /************************************************************************
 * SELECTING extension for jTable                                        *
 *************************************************************************/
@@ -3767,7 +3759,6 @@ THE SOFTWARE.
 
 })(jQuery);
 
-
 /************************************************************************
 * PAGING extension for jTable                                           *
 *************************************************************************/
@@ -3826,9 +3817,6 @@ THE SOFTWARE.
 
         /* Overrides base method to do paging-specific constructions.
         *************************************************************************/
-
-
-
 
         _create: function() {
             base._create.apply(this, arguments);
@@ -4152,8 +4140,6 @@ THE SOFTWARE.
             }
         },
 
-
-
         /* Overrides _onRecordsLoaded method to to do paging specific tasks.
         *************************************************************************/
         _onRecordsLoaded: function (data) {
@@ -4377,7 +4363,6 @@ THE SOFTWARE.
     });
 
 })(jQuery);
-
 
 /************************************************************************
 * SORTING extension for jTable                                          *
@@ -4965,7 +4950,6 @@ THE SOFTWARE.
             //Find data columns
             var headerCells = this._$table.find('>thead th.jtable-column-header');
 
-
             var pixelesFields = 0;
 
             headerCells.each(function () {
@@ -4977,8 +4961,6 @@ THE SOFTWARE.
                     }
                 }
             });
-
-           
 
             //Calculate total width of data columns
             var totalWidthInPixel = 0;
@@ -5081,7 +5063,6 @@ THE SOFTWARE.
     });
 
 })(jQuery);
-
 
 /************************************************************************
 * MASTER/CHILD tables extension for jTable                              *

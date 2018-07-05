@@ -71,3 +71,19 @@ Modified Version jTable  JQuery plugin ( jTable.org )
                      customRowOperation: makeRowCSS,  //  where makeRowCSS(table_tr_object) - javascript function
                          customShowInfo: showPageInfo  //  where showPageInfo(stringMessage) - javascript function 				
 
+07.06.2018
+
+		dynamic data refresh 
+		
+		for example:
+		
+		     actions: {
+                refreshRowAction: '/DataQuery/GetServicesRow',
+                refreshDataAction: '/DataQuery/GetServicesData',
+                listAction: '/DataQuery/GetServicesList',
+				
+				<a id="refresh" href="#" class="btn btn-info" onclick="DataRefresh(); return false;"> Status</a>
+
+				const DataRefresh = () => ) {
+					$('#ActivitiesTableContainer').jtable('data_refresh');
+				}

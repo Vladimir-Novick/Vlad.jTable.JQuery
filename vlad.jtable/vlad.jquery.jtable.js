@@ -67,6 +67,7 @@ THE SOFTWARE.
 
 
 
+
 */
 
 /************************************************************************
@@ -444,6 +445,10 @@ THE SOFTWARE.
 
         data_refresh: function () {
             this._data_refresh();
+        },
+
+        completeRefresh: function (data) {
+            this._completeRefresh(data);
         },
 
         /* Gets a jQuery row object according to given record key

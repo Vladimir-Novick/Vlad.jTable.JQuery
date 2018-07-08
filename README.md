@@ -87,3 +87,76 @@ Modified Version jTable  JQuery plugin ( jTable.org )
 				const DataRefresh = () => ) {
 					$('#ActivitiesTableContainer').jtable('data_refresh');
 				}
+				
+08.06.2018
+
+     HTML5 Asynchronous JavaScript support
+
+Example:
+
+job_worker.js 	 file:
+	 
+	    /* HTML5 Web Worker function */
+
+        const worker_ajax = (url, data, callback, type) => {
+
+		var data_array, data_string, idx, req, value;
+		if (data === null || typeof (data) === "undefined") {
+			data = {};
+		}
+
+		if (callback === null || typeof (callback) === "undefined" ) {
+			callback = function () { };
+		}
+		if (type === null || typeof (type) === "undefined") {
+			type = 'GET';
+		}
+		data_array = [];
+		for (idx in data) {
+			value = data[idx];
+			data_array.push("" + idx + "=" + value);
+		}
+		data_string = data_array.join("&");
+		req = new XMLHttpRequest();
+		req.open(type, url, false);
+		req.setRequestHeader("Content-type", "application/json");
+		req.onreadystatechange = function () {
+			if (req.readyState === 4 && req.status === 200) {
+				return callback(req.responseText); 
+			}
+		};
+		req.send(data_string);
+		return req;
+	};
+
+	const GetAllStatusesProcess = () => {
+
+		worker_ajax("/DataQuery/GetAllStatusesProcess", { 'send': true }, function (data) {
+			postMessage(data);
+		}, 'POST');
+
+		setTimeout("GetAllStatusesProcess()", 2000);
+	}
+
+	GetAllStatusesProcess();
+	
+	
+JTable onLoad definition :
+
+        /*
+         * Load HTML 5 Async worker
+        */
+        $('#ActivitiesTableContainer').jtable('load', undefined, function () {
+            if (typeof (worker) === "undefined" || worker === null ) {
+                worker = new Worker("../js/job_workers.js");  // create html5 worker object
+                worker.onmessage = function (event) { // get message from async worker
+                    var data = event.data;
+                    refreshStatusLines(data); 
+                };
+            }
+        });
+		
+		    function refreshStatusLines(data) {
+				$('#ActivitiesTableContainer').jtable('completeRefresh', 
+				         JSON.parse(data)); // refresh exist fields 
+			}

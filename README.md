@@ -6,7 +6,7 @@ Modified Version jTable  JQuery plugin ( jTable.org )
 
 ## CHANGELOG:
 
-29.11.2017
+## 29.11.2017
 
   Added refresh buttons:
 
@@ -25,7 +25,7 @@ Modified Version jTable  JQuery plugin ( jTable.org )
                     refreshRowAction: '/StatusQuery/RefreshRow',
                           listAction: '/StatusQuery/GetQueList'
  
-4.12.2017
+## 4.12.2017
  
       Added ability describe table column width in pixel size. 
 	  
@@ -38,7 +38,7 @@ Modified Version jTable  JQuery plugin ( jTable.org )
                     width: '80px'
                 },
 
-5.12.2017
+## 5.12.2017
 
 	Added number data type 
 	   For example:
@@ -52,7 +52,7 @@ Modified Version jTable  JQuery plugin ( jTable.org )
                     type: 'number'
                 }
 				
-11.12.2017
+## 11.12.2017
 
        custom javascript action for table tr
 
@@ -71,7 +71,7 @@ Modified Version jTable  JQuery plugin ( jTable.org )
                      customRowOperation: makeRowCSS,  //  where makeRowCSS(table_tr_object) - javascript function
                          customShowInfo: showPageInfo  //  where showPageInfo(stringMessage) - javascript function 				
 
-07.06.2018
+## 07.06.2018
 
 		dynamic data refresh 
 		
@@ -88,13 +88,11 @@ Modified Version jTable  JQuery plugin ( jTable.org )
 					$('#ActivitiesTableContainer').jtable('data_refresh');
 				}
 				
-08.06.2018
-
-     HTML5 Asynchronous JavaScript support
+# 08.06.2018 , HTML5 Asynchronous JavaScript support
 
 Example:
 
-job_worker.js 	 file:
+# job_worker.js 	 file:
 	 
 	    /* HTML5 Web Worker function */
 
@@ -141,7 +139,7 @@ job_worker.js 	 file:
 	GetAllStatusesProcess();
 	
 	
-JTable onLoad definition :
+# JTable onLoad definition :
 
         /*
          * Load HTML 5 Async worker
@@ -162,27 +160,30 @@ JTable onLoad definition :
 			}
 			
 			
+		Copyright (C) 2016-2018 by Vladimir Novick http://www.linkedin.com/in/vladimirnovick , 
 
-Copyright (C) 2016-2018 by Vladimir Novick http://www.linkedin.com/in/vladimirnovick ,
+		 vlad.novick@gmail.com , http://www.sgcombo.com , https://github.com/Vladimir-Novick
+			
+## License
 
-    vlad.novick@gmail.com , http://www.sgcombo.com
+		Copyright (C) 2016-2018 by Vladimir Novick http://www.linkedin.com/in/vladimirnovick , 
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
+		Permission is hereby granted, free of charge, to any person obtaining a copy
+		of this software and associated documentation files (the "Software"), to deal
+		in the Software without restriction, including without limitation the rights
+		to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+		copies of the Software, and to permit persons to whom the Software is
+		furnished to do so, subject to the following conditions:
 
-The above copyright notice and this permission notice shall be included in
-all copies or substantial portions of the Software.
+		The above copyright notice and this permission notice shall be included in
+		all copies or substantial portions of the Software.
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-THE SOFTWARE.
+		THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+		IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+		FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+		AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+		LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+		OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+		THE SOFTWARE. 
 
 	

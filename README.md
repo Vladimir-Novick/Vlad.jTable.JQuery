@@ -166,7 +166,9 @@ vlad.novick@gmail.com , http://www.sgcombo.com , https://github.com/Vladimir-Nov
 			
 ## License
 
-		Copyright (C) 2016-2018 by Vladimir Novick http://www.linkedin.com/in/vladimirnovick , 
+		Copyright (C) 2011-2014 by Halil İbrahim Kalkan (http://www.halilibrahimkalkan.com)
+		
+		Modified : 2014-2017/2018 by Vladimir Novick http://www.linkedin.com/in/vladimirnovick 
 
 		Permission is hereby granted, free of charge, to any person obtaining a copy
 		of this software and associated documentation files (the "Software"), to deal
